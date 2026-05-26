@@ -32,7 +32,7 @@ def get_registros():
         "servidor": "Servidor-Cuadros-Backend"
     }), 200
 
-# 2. POST (Para registrar por si acaso)
+# 2. POST (Con el FIX de mayúsculas aplicado)
 @app.route('/api/peritajes', methods=['POST'])
 def save_peritaje():
     data = request.get_json()
@@ -43,12 +43,16 @@ def save_peritaje():
             peritajes = json.load(f)
     except Exception:
         peritajes = []
-    peritajes.append({"placa": data['placa'], "marca": "Custom", "modelo": "Moto", "estado": "Revision", "falla": "Chequeo"})
+    
+    # Aplicamos el FIX: Convertir a mayúsculas
+    placa_mayusculas = data['placa'].upper()
+    peritajes.append({"placa": placa_mayusculas, "marca": "Custom", "modelo": "Moto", "estado": "Revision", "falla": "Chequeo"})
+    
     with open(JSON_FILE, 'w') as f:
         json.dump(peritajes, f, indent=4)
     return jsonify({"mensaje": "Peritaje guardado exitosamente"}), 201
 
-# 3. DELETE DINÁMICO (El paso 1 de la guía del profe)
+# 3. DELETE DINÁMICO
 @app.route('/api/peritajes/<string:placa_id>', methods=['DELETE'])
 def delete_peritaje(placa_id):
     try:
@@ -76,10 +80,10 @@ def delete_peritaje(placa_id):
         "moto_removida": moto_a_remover
     }), 200
 
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
-
-# --- NUEVA FUNCIONALIDAD: Inventario (A medio hacer) ---
+# --- NUEVA FUNCIONALIDAD: Inventario ---
 @app.route('/api/inventario', methods=['GET'])
 def get_inventario():
     return jsonify({"mensaje": "Módulo de inventario en construcción..."})
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000, debug=True)
