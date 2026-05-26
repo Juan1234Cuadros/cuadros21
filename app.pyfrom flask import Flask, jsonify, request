@@ -1,0 +1,159 @@
+from flask import Flask, jsonify, request
+from flask from flask import Flask, jsonify, request
+from datetime import datetime
+
+app = Flask(__name__)
+
+SERVER_NAME = "Servidor-Cuadros-Backend"
+
+# Inventario inicial requerido para la primera captura
+inventario_motos = [
+    {"placa": "XYZ-123", "marca": "Yamaha", "modelo": "FZ25", "estado": "En revisión"},
+    {"placa": "ABC-987", "marca": "Suzuki", "modelo": "Gixxer 250", "estado": "Espera de repuestos"}
+]
+
+# RUTA 1: api/registros (Inventario, Apellido y Hora del servidor)
+@app.route('/api/registros', methods=['GET'])
+def get_registros():
+    return jsonify({
+        "servidor": SERVER_NAME,
+        "hora_servidor": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        "inventario": inventario_motos
+    }), 200
+
+# RUTA 2: api/peritajes (GET para ver peritajes y POST para registrar)
+@app.route('/api/peritajes', methods=['GET', 'POST'])
+def handle_peritajes():
+    if request.method == 'POST':
+        data = request.get_json()
+        
+        if not data or 'placa' not in data:
+            return jsonify({"error": "Falta el campo 'placa'"}), 400
+            
+        nuevo_peritaje = {
+            "placa": data['placa'],
+            "marca": data.get('marca', 'Genérica'),
+            "modelo": data.get('modelo', '2026'),
+            "estado": "Registrado para peritaje",
+            "fecha_ingreso": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        }
+        inventario_motos.append(nuevo_peritaje)
+        return jsonify({
+            "mensaje": "Moto registrada con éxito para peritaje", 
+            "moto": nuevo_peritaje
+        }), 201
+
+    # Método GET
+    return jsonify({
+        "total_peritajes": len(inventario_motos),
+        "peritajes": inventario_motos
+    }), 200
+
+if __name__ == '__main__':
+    # Escucha en el puerto 5000 para conexiones externas
+    app.run(host='0.0.0.0', port=5000, debug=True)import Flask, jsonify, request
+from datetime import datetime
+
+app = Flask(__name__)
+
+SERVER_NAME = "Servidor-Cuadros-Backend"
+
+# Inventario inicial requerido para la primera captura
+inventario_motos = [
+    {"placa": "XYZ-123", "marca": "Yamaha", "modelo": "FZ25", "estado": "En revisión"},
+    {"placa": "ABC-987", "marca": "Suzuki", "modelo": "Gixxer 250", "estado": "Espera de repuestos"}
+]
+
+# RUTA 1: api/registros (Inventario, Apellido y Hora del servidor)
+@app.route('/api/registros', methods=['GET'])
+def get_registros():
+    return jsonify({
+        "servidor": SERVER_NAME,
+        "hora_servidor": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        "inventario": inventario_motos
+    }), 200
+
+# RUTA 2: api/peritajes (GET para ver peritajes y POST para registrar)
+@app.route('/api/peritajes', methods=['GET', 'POST'])
+def handle_peritajes():
+    if request.method == 'POST':
+        data = request.get_json()
+        
+        if not data or 'placa' not in data:
+            return jsonify({"error": "Falta el campo 'placa'"}), 400
+            
+        nuevo_peritaje = {
+            "placa": data['placa'],
+            "marca": data.get('marca', 'Genérica'),
+            "modelo": data.get('modelo', '2026'),
+            "estado": "Registrado para peritaje",
+            "fecha_ingreso": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        }
+        inventario_motos.append(nuevo_peritaje)
+        return jsonify({
+            "mensaje": "Moto registrada con éxito para peritaje", 
+            "moto": nuevo_peritaje
+        }), 201
+
+    # Método GET
+    return jsonify({
+        "total_peritajes": len(inventario_motos),
+        "peritajes": inventario_motos
+    }), 200
+
+if __name__ == '__main__':
+    # Escucha en el puerto 5000 para conexiones externas
+    app.run(host='0.0.0.0', port=5000, debug=True)
+from flask import Flask, jsonify, request
+from datetime import datetime
+
+app = Flask(__name__)
+
+SERVER_NAME = "Servidor-Cuadros-Backend"
+
+# Inventario inicial requerido para la primera captura
+inventario_motos = [
+    {"placa": "XYZ-123", "marca": "Yamaha", "modelo": "FZ25", "estado": "En revisión"},
+    {"placa": "ABC-987", "marca": "Suzuki", "modelo": "Gixxer 250", "estado": "Espera de repuestos"}
+]
+
+# RUTA 1: api/registros (Inventario, Apellido y Hora del servidor)
+@app.route('/api/registros', methods=['GET'])
+def get_registros():
+    return jsonify({
+        "servidor": SERVER_NAME,
+        "hora_servidor": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        "inventario": inventario_motos
+    }), 200
+
+# RUTA 2: api/peritajes (GET para ver peritajes y POST para registrar)
+@app.route('/api/peritajes', methods=['GET', 'POST'])
+def handle_peritajes():
+    if request.method == 'POST':
+        data = request.get_json()
+        
+        if not data or 'placa' not in data:
+            return jsonify({"error": "Falta el campo 'placa'"}), 400
+            
+        nuevo_peritaje = {
+            "placa": data['placa'],
+            "marca": data.get('marca', 'Genérica'),
+            "modelo": data.get('modelo', '2026'),
+            "estado": "Registrado para peritaje",
+            "fecha_ingreso": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        }
+        inventario_motos.append(nuevo_peritaje)
+        return jsonify({
+            "mensaje": "Moto registrada con éxito para peritaje", 
+            "moto": nuevo_peritaje
+        }), 201
+
+    # Método GET
+    return jsonify({
+        "total_peritajes": len(inventario_motos),
+        "peritajes": inventario_motos
+    }), 200
+
+if __name__ == '__main__':
+    # Escucha en el puerto 5000 para conexiones externas
+    app.run(host='0.0.0.0', port=5000, debug=True)
