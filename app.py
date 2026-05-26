@@ -78,3 +78,8 @@ def delete_peritaje(placa_id):
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
+
+# --- NUEVA FUNCIONALIDAD: Inventario (A medio hacer) ---
+@app.route('/api/inventario', methods=['GET'])
+def get_inventario():
+    return jsonify({"mensaje": "Módulo de inventario en construcción..."})
