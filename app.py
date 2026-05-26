@@ -78,3 +78,7 @@ def delete_peritaje(placa_id):
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
+
+# Asegúrate que sea así:
+    placa_mayusculas = data['placa'].upper()
+    peritajes.append({"placa": placa_mayusculas, "marca": "Custom", "modelo": "Moto", "estado": "Revision", "falla": "Chequeo"})
